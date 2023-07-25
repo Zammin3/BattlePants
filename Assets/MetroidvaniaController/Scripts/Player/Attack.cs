@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
@@ -13,11 +14,13 @@ public class Attack : MonoBehaviour
 	public bool isTimeToCheck = false;
 
 	public GameObject cam;
+    private PhotonView photonView;
 
-	private void Awake()
+    private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
-	}
+        photonView = GetComponent<PhotonView>();
+    }
 
 	// Start is called before the first frame update
 	void Start()
@@ -28,7 +31,8 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		if (Input.GetKeyDown(KeyCode.X) && canAttack)
+        if(!photonView.IsMine || !PhotonNetwork.IsConnected) return;
+        if (Input.GetKeyDown(KeyCode.X) && canAttack)
 		{
 			canAttack = false;
 			animator.SetBool("IsAttacking", true);

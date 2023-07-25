@@ -1,17 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class PantsGamePlayer : MonoBehaviour
 {
-    public Door door; // Door ÄÄÆ÷³ÍÆ®ÀÇ ÂüÁ¶
-    private bool isInTrigger = false; // ÇÃ·¹ÀÌ¾î°¡ µµ¾î Æ®¸®°Å ³»¿¡ ÀÖ´ÂÁö Ç¥½Ã
+    public Door door; // Door ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private bool isInTrigger = false; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
+    private PhotonView photonView;
 
+    private void Awake()
+    {
+        photonView =  GetComponent<PhotonView>();
+        if (photonView.IsMine)
+        {
+            Camera cam = Camera.main;
+            cam.transform.SetParent(transform);
+            cam.transform.localPosition = new Vector3(0f, 0f, -10f);
+        }
+        
+    }
     private void Start()
     {
-        Camera cam = Camera.main;
-        cam.transform.SetParent(transform);
-        cam.transform.localPosition = new Vector3(0f, 0f, -10f);
+       
         
     }
 
@@ -24,21 +35,21 @@ public class PantsGamePlayer : MonoBehaviour
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow))
         {
-            door.OpenDoor(); // µµ¾î¸¦ ¿±´Ï´Ù
+            door.OpenDoor(); // ï¿½ï¿½ï¿½î¸¦ ï¿½ï¿½ï¿½Ï´ï¿½
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == door.gameObject)
-            isInTrigger = true; // isInTrigger¸¦ true·Î ¼³Á¤
+            isInTrigger = true; // isInTriggerï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
-    // ÇÃ·¹ÀÌ¾î°¡ µµ¾î Æ®¸®°Å¿¡¼­ ³ª°¡¸é
+    // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½Å¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject == door.gameObject)
-            isInTrigger = false; // isInTrigger¸¦ false·Î ¼³Á¤
+            isInTrigger = false; // isInTriggerï¿½ï¿½ falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 
 }

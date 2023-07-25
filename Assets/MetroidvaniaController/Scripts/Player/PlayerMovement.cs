@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Realtime;
+using Photon.Pun;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviourPunCallbacks {
 
 	public CharacterController2D controller;
 	public Animator animator;
@@ -13,12 +15,20 @@ public class PlayerMovement : MonoBehaviour {
 	bool jump = false;
 	bool dash = false;
 
-	//bool dashAxis = false;
-	
-	// Update is called once per frame
-	void Update () {
+    private PhotonView photonView;
 
-		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
+    private void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
+
+    //bool dashAxis = false;
+
+    // Update is called once per frame
+    void Update () {
+        if (!photonView.IsMine || !PhotonNetwork.IsConnected) return;
+
+        horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
 		animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
 

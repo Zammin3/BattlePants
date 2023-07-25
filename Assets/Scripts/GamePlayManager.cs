@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class GamePlayManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         Spawn();
     }
     public void Spawn()
     {
         PhotonNetwork.Instantiate("Pants Game Player Variant", new Vector3(43.5f, 35.2f, 0), Quaternion.identity);
-       // RespawnPanel.SetActive(false);
+        // RespawnPanel.SetActive(false);
 
     }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+    
 
     // Update is called once per frame
     void Update()
