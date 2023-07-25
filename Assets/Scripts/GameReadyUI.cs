@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
+using UnityEngine.SceneManagement;
 
 public class GameReadyManager : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class GameReadyManager : MonoBehaviour
 
     public List<GameObject> playerReadyPanelList;
 
-   
+
 
     void Start()
     {
@@ -27,24 +29,30 @@ public class GameReadyManager : MonoBehaviour
     void Update()
     {
         List<PlayerData> currentPlayersStatus = NetworkManager.instance.GetPlayersStatus();
-        
+
 
         // Loop through each status and update the corresponding UI text element
         for (int i = 0; i < currentPlayersStatus.Count; i++)
         {
-           
+
             playerStatusTextList[i].text = currentPlayersStatus[i].Nickname;
             playerInfoPanelList[i].SetActive(true);
             playerReadyPanelList[i].SetActive(currentPlayersStatus[i].IsReady);
 
-            
+
         }
-        for (int i = currentPlayersStatus.Count; i < 4; i++) {
-          playerInfoPanelList[i].SetActive(false);
+        for (int i = currentPlayersStatus.Count; i < 4; i++)
+        {
+            playerInfoPanelList[i].SetActive(false);
         }
     }
-    public void ReadyButtonClicked(bool isReady) {
+    public void ReadyButtonClicked(bool isReady)
+    {
         PlayerData myStauts = NetworkManager.instance.GetMyStatus();
         NetworkManager.instance.SetPlayerReady(!myStauts.IsReady);
+    }
+    public void BackButtonClicked()
+    {
+        NetworkManager.instance.ExitRoom();
     }
 }

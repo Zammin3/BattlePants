@@ -1798,7 +1798,7 @@ GameObject:
   - component: {fileID: 1519669389}
   - component: {fileID: 1519669388}
   m_Layer: 5
-  m_Name: Exit Button
+  m_Name: Back Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1868,9 +1868,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: OnClickExitButton
+      - m_Target: {fileID: 119554958}
+        m_TargetAssemblyTypeName: GameReadyManager, Assembly-CSharp
+        m_MethodName: BackButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -227,6 +227,22 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         return myData;
     }
 
+    public void ExitRoom()
+    {
+        // 방을 떠남
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        // 방을 떠난 후 실행할 코드를 여기에 작성합니다.
+        // 예를 들어 메인 화면으로 씬을 전환하거나 필요한 초기화 작업을 수행할 수 있습니다.
+
+        // 메인 화면 씬 이름을 "MainScene"으로 가정하고, LoadScene 함수로 씬을 전환합니다.
+        Destroy(gameObject);
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
 }
 
 public class PlayerData {
