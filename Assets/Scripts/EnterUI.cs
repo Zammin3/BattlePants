@@ -27,9 +27,6 @@ public class EnterUI : MonoBehaviour
     {
         if (nicknameInputField.text != "")
         {
-            var manager = PantsRoomManager.singleton;
-
-            manager.StartHost();
         }
     }
 
@@ -37,9 +34,6 @@ public class EnterUI : MonoBehaviour
     {
         if (nicknameInputField.text != "")
         {
-            var manager = PantsRoomManager.singleton;
-
-            manager.StartClient();
         }
     }
 }
