@@ -166,6 +166,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                 Debug.Log("Player ID: " + player.ActorNumber + ", Key: " + entry.Key.ToString() + ", Value: " + entry.Value.ToString());
             }
         }
+        SceneManager.LoadScene("Game Play Map1");
     }
 
 
