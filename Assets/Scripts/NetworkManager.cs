@@ -5,18 +5,16 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    [SerializeField]
-    private TMP_InputField nicknameInputField;
-    [SerializeField]
-    private GameObject enterRoomUI;
-
-
+    
 
     public static NetworkManager instance;
+
+
 
     // Photon View 컴포넌트
     public PhotonView PV;
@@ -39,25 +37,27 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
 
-        // Photon View 컴포넌트 레퍼런스 얻기
-        PV = GetComponent<PhotonView>();
+        //Photon View 컴포넌트 레퍼런스 얻기
+       //PV = GetComponent<PhotonView>();
     }
 
     void Start()
     {
-        Connect();
+
     }
 
-    void Connect()
+    public void Connect(string nickname)
     {
         // 마스터 서버에 연결
+        PhotonNetwork.NickName=nickname;
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("마스터 서버에 연결됨");
+        Debug.Log("마스터 서버에 연결됨 ");
         JoinRoom();
+
     }
 
     void JoinRoom()
@@ -70,6 +70,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinOrCreateRoom("게임방", roomOptions, TypedLobby.Default);
     }
 
+
     public override void OnJoinedRoom()
     {
         Debug.Log("방에 참가함");
@@ -80,8 +81,17 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void NotifyUserJoined(string name)
     {
+        foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
+        {
+            Debug.Log("Player ID: " + playerInfo.Key + ", NickName: " + playerInfo.Value.NickName);
+        }
+
+        Debug.Log("Player ID: " + PhotonNetwork.LocalPlayer.ActorNumber);
         Debug.Log(name + "님이 게임에 참가하였습니다.");
+
+        
     }
+
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
@@ -90,8 +100,44 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     // 플레이어가 준비되었음을 서버에 알리는 함수
+   
+
+
+    public void SetPlayerReady(bool isReady) {
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+        properties.Add("isReady", isReady);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+    }
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if (changedProps.ContainsKey("isReady"))
+        {
+            CheckAllPlayersReady();
+        }
+    }
+    private void CheckAllPlayersReady()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            object isReady;
+            if (player.CustomProperties.TryGetValue("isReady", out isReady))
+            {
+                if ((bool)isReady == false)
+                {
+                    return; // 한 명 이상의 플레이어가 아직 준비되지 않았으므로 리턴
+                }
+            }
+            else
+            {
+                return; // 한 명 이상의 플레이어가 아직 준비 상태를 설정하지 않았으므로 리턴
+            }
+        }
+        // 모든 플레이어가 준비되었으므로 게임을 시작
+        PlayerReady();
+    }
     public void PlayerReady()
     {
+        Debug.Log("게임 시작!");
         PV.RPC("NotifyPlayerReady", RpcTarget.AllBuffered);
     }
 
@@ -110,30 +156,81 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         // 게임 시작 로직 (씬 전환 등)
         Debug.Log("모든 플레이어가 준비되었습니다. 게임을 시작합니다.");
+
+        foreach (Photon.Realtime.Player player in PhotonNetwork.CurrentRoom.Players.Values)
+        {
+            Debug.Log("Player ID: " + player.ActorNumber + ", NickName: " + player.NickName);
+
+            foreach (DictionaryEntry entry in player.CustomProperties)
+            {
+                Debug.Log("Player ID: " + player.ActorNumber + ", Key: " + entry.Key.ToString() + ", Value: " + entry.Value.ToString());
+            }
+        }
     }
 
-    public void OnClickEnterGameButton()
+
+    public List<PlayerData> GetPlayersStatus()
     {
-        if(nicknameInputField.text != "")
+        List<PlayerData> playersStatus = new List<PlayerData>();
+
+        // Check if CurrentRoom is not null
+        if (PhotonNetwork.CurrentRoom != null)
         {
-            PlayerSettings.nickname = nicknameInputField.text; 
+            foreach (Photon.Realtime.Player player in PhotonNetwork.CurrentRoom.Players.Values)
+            {
+                // Check if player is not null
+                if (player != null)
+                {
+                    PlayerData playerData = new PlayerData();
+                    playerData.Nickname = player.NickName;
+                    playerData.PlayerID = player.ActorNumber;
+
+                    // Check if CustomProperties is not null
+                    if (player.CustomProperties != null && player.CustomProperties.ContainsKey("isReady"))
+                    {
+                        playerData.IsReady = (bool)player.CustomProperties["isReady"];
+                    }
+                    else
+                    {
+                        playerData.IsReady = false;
+                    }
+
+                    playersStatus.Add(playerData);
+                }
+            }
+        }
+
+        return playersStatus;
+    }
+
+    public PlayerData GetMyStatus()
+    {
+        PlayerData myData = new PlayerData();
+
+        // 현재 로컬 플레이어의 상태를 가져옵니다.
+        Photon.Realtime.Player localPlayer = PhotonNetwork.LocalPlayer;
+
+        // PlayerData 인스턴스에 닉네임과 ID를 설정합니다.
+        myData.Nickname = localPlayer.NickName;
+        myData.PlayerID = localPlayer.ActorNumber;
+
+        // 플레이어의 "isReady" 상태를 확인하고 설정합니다.
+        if (localPlayer.CustomProperties.ContainsKey("isReady"))
+        {
+            myData.IsReady = (bool)localPlayer.CustomProperties["isReady"];
         }
         else
         {
-            nicknameInputField.GetComponent<Animator>().SetTrigger("on");
+            myData.IsReady = false;
         }
+
+        return myData;
     }
 
+}
 
-
-    public void CreateRoom()
-    {
-        if (nicknameInputField.text != "")
-        {
-            
-            Connect();
-        }
-    }
-
-    
+public class PlayerData {
+    public string Nickname { get; set; }
+    public int PlayerID { get; set; }
+    public bool IsReady { get; set; }
 }

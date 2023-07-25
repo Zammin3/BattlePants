@@ -864,6 +864,7 @@ GameObject:
   m_Component:
   - component: {fileID: 246311292}
   - component: {fileID: 246311291}
+  - component: {fileID: 246311293}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -883,8 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0038aa343a8c5cb449ff2f0e12030b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nicknameInputField: {fileID: 0}
-  enterRoomUI: {fileID: 0}
+  PV: {fileID: 246311293}
 --- !u!4 &246311292
 Transform:
   m_ObjectHideFlags: 0
@@ -900,6 +900,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &246311293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246311290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &248366275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,7 +1449,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1541972832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: EnterUI, Assembly-CSharp
         m_MethodName: OnClickEnterGameButton
         m_Mode: 1
@@ -1439,7 +1461,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1541972832}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: EnterUI, Assembly-CSharp
         m_MethodName: EnterRoom
         m_Mode: 1
@@ -1784,7 +1806,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &846883763
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1850,20 +1872,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1541972832}
-        m_TargetAssemblyTypeName: EnterUI, Assembly-CSharp
-        m_MethodName: OnClickEnterGameButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1541972832}
-        m_TargetAssemblyTypeName: EnterUI, Assembly-CSharp
-        m_MethodName: CreateRoom
+        m_TargetAssemblyTypeName: EnterRoomUI, Assembly-CSharp
+        m_MethodName: CreateRoom2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2548,7 +2558,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1541972830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0038aa343a8c5cb449ff2f0e12030b5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a545ccf60f2147049f051f15123ed36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   nicknameInputField: {fileID: 1865159245}
