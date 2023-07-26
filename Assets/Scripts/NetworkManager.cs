@@ -25,6 +25,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // 방에 들어올 수 있는 최대 플레이어 수
     private const int MaxPlayers = 4;
 
+    public string currentMap = "Game Play Map2";
+
     void Awake()
     {
         if (instance == null)
@@ -151,6 +153,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             StartGame();
         }
     }
+
+    [PunRPC]
+    public void ChangeScene()
+    {
+        // 실제 문을 열 때 다음 맵을 결정합니다.
+        if (currentMap == "Game Play Map1")
+        {
+            currentMap = "Game Play Map2";
+        }
+        else
+        {
+            currentMap = "Game Play Map1";
+        }
+
+        SceneManager.LoadScene(currentMap);
+    }
+
+
 
     void StartGame()
     {

@@ -66,15 +66,18 @@ public class PantsGamePlayer : MonoBehaviour
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && !isRealDoor)
         {
-            StartCoroutine(WaitAndSpawn());
+            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
         }
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && isRealDoor)
         {
             Debug.Log("OPEN THE DOOR");
             isRealDoor = false;
+
+            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
         }
     }
+
 
     IEnumerator WaitAndSpawn()
     {
