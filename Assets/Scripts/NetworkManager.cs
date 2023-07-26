@@ -14,7 +14,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public static NetworkManager instance;
 
-
+    public string currentMap = "Game Play Map2";
 
     // Photon View 컴포넌트
     public PhotonView PV;
@@ -162,6 +162,21 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
+    public void ChangeScene()
+    {
+        // 실제 문을 열 때 다음 맵을 결정합니다.
+        if (currentMap == "Game Play Map1")
+        {
+            currentMap = "Game Play Map2";
+        }
+        else
+        {
+            currentMap = "Game Play Map1";
+        }
+
+        SceneManager.LoadScene(currentMap);
+    }
     void StartGame()
     {
         // 게임 시작 로직 (씬 전환 등)

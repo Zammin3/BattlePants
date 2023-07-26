@@ -66,7 +66,20 @@ public class PantsGamePlayer : MonoBehaviour
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && !isRealDoor)
         {
-            StartCoroutine(WaitAndSpawn());
+            //StartCoroutine(WaitAndSpawn());
+
+            PlayerData myStauts = NetworkManager.instance.GetMyStatus();
+            if (!myStauts.score1)
+            {
+                NetworkManager.instance.SetPlayerScores(true, false);
+            }
+            else
+            {
+                NetworkManager.instance.SetPlayerScores(true, true);
+            }
+
+            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
+            isRealDoor = false;
         }
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && isRealDoor)
@@ -83,6 +96,7 @@ public class PantsGamePlayer : MonoBehaviour
                 NetworkManager.instance.SetPlayerScores(true, true);
             }
 
+            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
             isRealDoor = false;
         }
     }
