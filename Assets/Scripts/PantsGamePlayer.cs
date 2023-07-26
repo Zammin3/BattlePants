@@ -1,44 +1,93 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PantsGamePlayer : MonoBehaviour
 {
-    public Door door; // Door 컴포넌트의 참조
     private bool isInTrigger = false; // 플레이어가 도어 트리거 내에 있는지 표시
+    private bool isRealDoor = false;
+    private List<Vector3> doorPosition = new List<Vector3>();
+
+    System.Random random = new System.Random();
 
     private void Start()
     {
         Camera cam = Camera.main;
         cam.transform.SetParent(transform);
         cam.transform.localPosition = new Vector3(0f, 0f, -10f);
+
+        GameObject doorsParent = GameObject.Find("Doors");
         
+        foreach(Transform child in doorsParent.transform)
+        {
+            if (child != null)
+            {
+                Vector3 childPos = child.position;
+                doorPosition.Add(childPos);
+            }
+        }
+
+        
+        int n = doorPosition.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = random.Next(n + 1);
+            Vector3 temp = doorPosition[k];
+            doorPosition[k] = doorPosition[n];
+            doorPosition[n] = temp;
+        }
+
+
     }
 
     private void Update()
     {
-        if (gameObject.transform.position.y < -20f)
+        if (gameObject.transform.position.y < -25f)
         {
             gameObject.transform.position = new Vector3(20f, -6f, 0f);
         }
 
-        if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow))
+        if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && !isRealDoor)
         {
-            door.OpenDoor(); // 도어를 엽니다
+            StartCoroutine(WaitAndSpawn());
+        }
+
+        if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && isRealDoor)
+        {
+
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    IEnumerator WaitAndSpawn()
     {
-        if (other.gameObject == door.gameObject)
+        yield return new WaitForSeconds(0.5f);
+        int index = random.Next(doorPosition.Count - 1);
+        gameObject.transform.position = doorPosition[index];
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name == "Door")
+        {
             isInTrigger = true; // isInTrigger를 true로 설정
+        }
+        if(other.gameObject.transform.position == doorPosition[doorPosition.Count - 1])
+        {
+            isRealDoor = true;
+        }
     }
 
     // 플레이어가 도어 트리거에서 나가면
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject == door.gameObject)
-            isInTrigger = false; // isInTrigger를 false로 설정
+        if (other.gameObject.name == "Door")
+        {
+            isInTrigger = false;
+        }
     }
 
 }

@@ -4,9 +4,44 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    [SerializeField]
+    private Animator animator;
+    private bool isInTrigger = false;
+
+    private void Update()
+    {
+        if (gameObject.transform.position.y < -20f)
+        {
+            gameObject.transform.position = new Vector3(20f, -6f, 0f);
+        }
+
+        if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            OpenDoor(); // 도어를 엽니다
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        isInTrigger = true; 
+    }
+
+    // 플레이어가 도어 트리거에서 나가면
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        isInTrigger = false;
+    }
+
     public void OpenDoor()
     {
-        // 여기서 도어를 여는 작업을 수행합니다.
-        Debug.Log("Door opened!");
+        animator.SetBool("open", true);
+        StartCoroutine(ResetAnimatorParameter());
     }
+
+    IEnumerator ResetAnimatorParameter()
+    {
+        yield return new WaitForSeconds(1);
+        animator.SetBool("open", false);
+    }
+
 }
