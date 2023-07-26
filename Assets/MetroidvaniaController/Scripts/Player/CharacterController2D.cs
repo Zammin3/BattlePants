@@ -339,6 +339,26 @@ public class CharacterController2D : MonoBehaviour
 		yield return new WaitForSeconds(0.4f);
 		m_Rigidbody2D.velocity = new Vector2(0, m_Rigidbody2D.velocity.y);
 		yield return new WaitForSeconds(1.1f);
-		SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+
+
+		//SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+		RespawnPlayer();
 	}
+    private void RespawnPlayer()
+    {
+		Debug.Log("respawn");
+        // 플레이어의 초기 상태를 설정
+        animator.SetBool("IsDead", false);
+        life = 10f; // 플레이어의 초기 생명력 설정
+        canMove = true;
+        invincible = false; // 초기에는 무적 상태가 아님
+       // 플레이어가 움직일 수 있도록 설정
+        GetComponent<Attack>().enabled = true;
+
+		// 플레이어를 스폰 위치로 이동시킴
+		transform.position = new Vector3(43.5f, 35.2f, 0);
+
+        // 그 외 필요한 초기화 작업들을 진행
+        // 예: 초기화를 위한 파티클 이펙트 재생, 상태 초기화 등
+    }
 }
