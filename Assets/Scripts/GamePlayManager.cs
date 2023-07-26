@@ -11,7 +11,7 @@ public class GamePlayManager : MonoBehaviour
     }
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Pants Game Player Variant", new Vector3(43.5f, 35.2f, 0), Quaternion.identity);
+        PhotonNetwork.Instantiate("Pants Game Player Variant", new Vector3(20f, -6f, 0), Quaternion.identity);
         // RespawnPanel.SetActive(false);
 
     }
