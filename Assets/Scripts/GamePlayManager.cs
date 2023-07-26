@@ -15,6 +15,20 @@ public class GamePlayManager : MonoBehaviour
         // RespawnPanel.SetActive(false);
 
     }
+
+    public void ScoreUp()
+    {
+        PlayerData myStauts = NetworkManager.instance.GetMyStatus();
+        if (!myStauts.score1)
+        {
+            NetworkManager.instance.SetPlayerScores(true, false);
+        }
+        else
+        {
+            NetworkManager.instance.SetPlayerScores(true, true);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -1,20 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using Photon.Pun;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
-public class GameReadyManager : MonoBehaviour
+public class PlayerScoreUI : MonoBehaviour
 {
-
-    public List<TMP_Text> playerStatusTextList;
-    // Start is called before the first frame update
+    public TMP_Text round;
 
     public List<GameObject> playerInfoPanelList;
-
-    public List<GameObject> playerReadyPanelList;
-
+    public List<TMP_Text> playerStatusTextList;
+    public List<GameObject> playerScoreList1;
+    public List<GameObject> playerScoreList2;
 
 
     void Start()
@@ -23,6 +19,8 @@ public class GameReadyManager : MonoBehaviour
         {
             panel.SetActive(false);
         }
+
+        round.text = "1";
     }
 
     // Update is called once per frame
@@ -34,26 +32,15 @@ public class GameReadyManager : MonoBehaviour
         // Loop through each status and update the corresponding UI text element
         for (int i = 0; i < currentPlayersStatus.Count; i++)
         {
-
             playerStatusTextList[i].text = currentPlayersStatus[i].Nickname;
             playerInfoPanelList[i].SetActive(true);
-            playerReadyPanelList[i].SetActive(currentPlayersStatus[i].IsReady);
-
+            playerScoreList1[i].SetActive(currentPlayersStatus[i].score1);
+            playerScoreList2[i].SetActive(currentPlayersStatus[i].score2);
 
         }
         for (int i = currentPlayersStatus.Count; i < 4; i++)
         {
             playerInfoPanelList[i].SetActive(false);
         }
-    }
-    public void ReadyButtonClicked(bool isReady)
-    {
-        PlayerData myStauts = NetworkManager.instance.GetMyStatus();
-        NetworkManager.instance.SetPlayerReady(!myStauts.IsReady);
-        NetworkManager.instance.SetPlayerScores(false, false);
-    }
-    public void BackButtonClicked()
-    {
-        NetworkManager.instance.ExitRoom();
     }
 }

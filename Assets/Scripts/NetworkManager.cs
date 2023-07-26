@@ -100,14 +100,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     }
 
     // 플레이어가 준비되었음을 서버에 알리는 함수
-   
 
 
-    public void SetPlayerReady(bool isReady) {
+    public void SetPlayerReady(bool isReady)
+    {
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
         properties.Add("isReady", isReady);
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
+
+    public void SetPlayerScores(bool score1, bool score2)
+    {
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+        properties.Add("score1", score1);
+        properties.Add("score2", score2);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+    }
+
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (changedProps.ContainsKey("isReady"))
@@ -195,6 +205,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     {
                         playerData.IsReady = false;
                     }
+                    // 플레이어의 "score1"과 "score2" 상태를 확인하고 설정합니다.
+                    if (player.CustomProperties != null && player.CustomProperties.ContainsKey("score1"))
+                    {
+                        playerData.score1 = (bool)player.CustomProperties["score1"];
+                    }
+                    else
+                    {
+                        playerData.score1 = false;
+                    }
+
+                    if (player.CustomProperties != null && player.CustomProperties.ContainsKey("score2"))
+                    {
+                        playerData.score2 = (bool)player.CustomProperties["score2"];
+                    }
+                    else
+                    {
+                        playerData.score2 = false;
+                    }
 
                     playersStatus.Add(playerData);
                 }
@@ -224,6 +252,26 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             myData.IsReady = false;
         }
+        // 플레이어의 "score1"과 "score2" 상태를 확인하고 설정합니다.
+        if (localPlayer.CustomProperties.ContainsKey("score1"))
+        {
+            myData.score1 = (bool)localPlayer.CustomProperties["score1"];
+        }
+        else
+        {
+            myData.score1 = false;
+        }
+
+        if (localPlayer.CustomProperties.ContainsKey("score2"))
+        {
+            myData.score2 = (bool)localPlayer.CustomProperties["score2"];
+        }
+        else
+        {
+            myData.score2 = false;
+        }
+
+
 
         return myData;
     }
@@ -250,4 +298,6 @@ public class PlayerData {
     public string Nickname { get; set; }
     public int PlayerID { get; set; }
     public bool IsReady { get; set; }
+    public bool score1 { get; set; }
+    public bool score2 { get; set; }
 }
