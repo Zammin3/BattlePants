@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviourPunCallbacks {
 
     // Update is called once per frame
     void Update () {
-        if (!photonView.IsMine || !PhotonNetwork.IsConnected) return;
+       if (!photonView.IsMine || !PhotonNetwork.IsConnected) return;
 
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 

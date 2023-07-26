@@ -263,6 +263,7 @@ public class CharacterController2D : MonoBehaviour
 
 	public void ApplyDamage(float damage, Vector3 position) 
 	{
+		Debug.Log("Attacg");
 		if (!invincible)
 		{
 			animator.SetBool("Hit", true);

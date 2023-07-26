@@ -31,7 +31,7 @@ public class Attack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!photonView.IsMine || !PhotonNetwork.IsConnected) return;
+       if(!photonView.IsMine || !PhotonNetwork.IsConnected) return;
         if (Input.GetKeyDown(KeyCode.X) && canAttack)
 		{
 			canAttack = false;
@@ -69,6 +69,16 @@ public class Attack : MonoBehaviour
 				collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue);
 				cam.GetComponent<CameraFollow>().ShakeCamera();
 			}
-		}
+            else if (collidersEnemies[i].gameObject.tag == "Player" && collidersEnemies[i].gameObject != gameObject)
+            {
+                if (collidersEnemies[i].transform.position.x - transform.position.x < 0)
+                {
+                    dmgValue = -dmgValue;
+                }
+				collidersEnemies[i].gameObject.GetComponent<CharacterController2D>().ApplyDamage(dmgValue, transform.position);
+                //collidersEnemies[i].gameObject.SendMessage("ApplyDamage", dmgValue,transform.position);
+                //cam.GetComponent<CameraFollow>().ShakeCamera();
+            }
+        }
 	}
 }
