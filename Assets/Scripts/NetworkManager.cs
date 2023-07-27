@@ -168,22 +168,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             StartGame();
         }
     }
-
-    [PunRPC]
-    public void ChangeScene()
-    {
-        // 실제 문을 열 때 다음 맵을 결정합니다.
-        if (currentMap == "Game Play Map1")
-        {
-            currentMap = "Game Play Map2";
-        }
-        else
-        {
-            currentMap = "Game Play Map1";
-        }
-
-        SceneManager.LoadScene(currentMap);
-    }
     void StartGame()
     {
         // 게임 시작 로직 (씬 전환 등)
@@ -312,6 +296,29 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         // 메인 화면 씬 이름을 "MainScene"으로 가정하고, LoadScene 함수로 씬을 전환합니다.
         Destroy(gameObject);
         SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void SetChangeScene()
+    {
+        
+        PV.RPC("ChangeScene", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void ChangeScene()
+    {
+        Debug.Log("씬 변경 시작!");
+        // 실제 문을 열 때 다음 맵을 결정합니다.
+        if (currentMap == "Game Play Map1")
+        {
+            currentMap = "Game Play Map2";
+        }
+        else
+        {
+            currentMap = "Game Play Map1";
+        }
+
+        SceneManager.LoadScene(currentMap);
     }
 
 }

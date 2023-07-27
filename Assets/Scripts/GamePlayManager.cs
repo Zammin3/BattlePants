@@ -11,7 +11,18 @@ public class GamePlayManager : MonoBehaviour
 
     private void Awake()
     {
-        Spawn();
+        
+    }
+    
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Invoke("Spawn", 0.2f);
+        endingUI.SetActive(false);
+        winUI.SetActive(false);
+        loseUI.SetActive(false);
     }
     public void Spawn()
     {
@@ -20,15 +31,6 @@ public class GamePlayManager : MonoBehaviour
 
     }
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        endingUI.SetActive(false);
-        winUI.SetActive(false);
-        loseUI.SetActive(false);
-    }
-    
 
     // Update is called once per frame
     void Update()
