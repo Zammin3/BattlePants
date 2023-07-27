@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class GamePlayManager : MonoBehaviour
 {
+    public GameObject endingUI;
+    public GameObject winUI;
+    public GameObject loseUI;
+
     private void Awake()
     {
         Spawn();
@@ -16,29 +20,35 @@ public class GamePlayManager : MonoBehaviour
 
     }
 
-    public void ScoreUp()
-    {
-        PlayerData myStauts = NetworkManager.instance.GetMyStatus();
-        if (!myStauts.score1)
-        {
-            NetworkManager.instance.SetPlayerScores(true, false);
-        }
-        else
-        {
-            NetworkManager.instance.SetPlayerScores(true, true);
-        }
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        endingUI.SetActive(false);
+        winUI.SetActive(false);
+        loseUI.SetActive(false);
     }
     
 
     // Update is called once per frame
     void Update()
     {
-        
+        List<PlayerData> currentPlayersStatus = NetworkManager.instance.GetPlayersStatus();
+        PlayerData myStauts = NetworkManager.instance.GetMyStatus();
+
+        for (int i = 0; i < currentPlayersStatus.Count; i++)
+        {
+            if (currentPlayersStatus[i].score2 && myStauts.PlayerID == currentPlayersStatus[i].PlayerID)
+            {
+                endingUI.SetActive(true);
+                winUI.SetActive(true);
+            }
+            else if (currentPlayersStatus[i].score2 && myStauts.PlayerID != currentPlayersStatus[i].PlayerID)
+            {
+                endingUI.SetActive(true);
+                loseUI.SetActive(true);
+            }
+
+        }
     }
 }
