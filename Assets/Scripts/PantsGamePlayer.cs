@@ -77,7 +77,22 @@ public class PantsGamePlayer : MonoBehaviour
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && !isRealDoor)
         {
+            Debug.Log("OPEN THE DOOR");
 
+            PlayerData myStatus = NetworkManager.instance.GetMyStatus();
+            if (!myStatus.score1)
+            {
+                NetworkManager.instance.SetPlayerScores(true, false);
+                NetworkManager.instance.SetRound((int)PhotonNetwork.CurrentRoom.CustomProperties["round"] + 1);
+            }
+            else
+            {
+                NetworkManager.instance.SetPlayerScores(true, true);
+                NetworkManager.instance.SetRound((int)PhotonNetwork.CurrentRoom.CustomProperties["round"] + 1);
+            }
+
+            NetworkManager.instance.SetChangeScene();
+            isRealDoor = false;
         }
 
         else if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && isRealDoor)
