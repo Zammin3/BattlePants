@@ -23,7 +23,7 @@
 * 점수를 얻기 위해서는 맵 어딘가에 있는 진짜 문을 찾아 문을 열어야합니다.
 
 * 상대방을 공격하여 서로 방해해보세요
-
+***
 ## D. 조작법
 * 좌우 이동 : ←, →
 
@@ -34,12 +34,20 @@
 * 공격 : X 키
 
 * 대쉬 : C 키
-
+***
 
 ## E. 미리보기
+
+### 게임시작 화면
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/9c1dcae6-3997-452b-9091-efe3f4dbca0e)
+
+### 게임 참가 화면
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/da15ae99-6349-4d4e-9654-1bf25d076125)
+
+### 게임 대기 화면
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/9e85abd9-3dc8-4c4b-aea7-d3854aee203e)
+
+### 게임 플레이 화면
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/84fd774f-0264-4fcb-8bb4-24938236e892)
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/9bf80b3a-5192-4949-9b67-43945e944ff8)
 
