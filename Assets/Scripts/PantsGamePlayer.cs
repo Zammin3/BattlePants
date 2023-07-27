@@ -89,11 +89,11 @@ public class PantsGamePlayer : MonoBehaviour
                 NetworkManager.instance.SetPlayerScores(true, true);
             }
 
-            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
+            NetworkManager.instance.SetChangeScene();
             isRealDoor = false;
         }
 
-        if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && isRealDoor)
+        else if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && isRealDoor)
         {
             Debug.Log("OPEN THE DOOR");
 
@@ -107,7 +107,7 @@ public class PantsGamePlayer : MonoBehaviour
                 NetworkManager.instance.SetPlayerScores(true, true);
             }
 
-            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
+            NetworkManager.instance.SetChangeScene();
             isRealDoor = false;
         }
         if (transform.localScale.x < 0)//    부모가 좌우 대칭되었다, 캔버스도 좌우 대칭 시키기 
