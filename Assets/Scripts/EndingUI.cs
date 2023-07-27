@@ -14,6 +14,5 @@ public class EndingUI : MonoBehaviour
     public void MainButtonClicked()
     {
         NetworkManager.instance.ExitRoom();
-        SceneManager.LoadScene("MainMenuScene");
     }
 }
