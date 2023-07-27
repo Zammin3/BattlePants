@@ -321,6 +321,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         SceneManager.LoadScene(currentMap);
     }
 
+    public string getCurrentMap() {
+        return currentMap;
+    }
+
 }
 
 public class PlayerData {

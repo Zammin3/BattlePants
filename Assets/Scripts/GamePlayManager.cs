@@ -8,13 +8,24 @@ public class GamePlayManager : MonoBehaviour
     public GameObject endingUI;
     public GameObject winUI;
     public GameObject loseUI;
+    private List<Vector3> playerPos1 = new List<Vector3>() { 
+        new Vector3(6f, -6f, 0),
+        new Vector3(8f, -6f, 0),
+        new Vector3(10f, -6f, 0),
+        new Vector3(12f, -6f, 0)
+    };
+    private List<Vector3> playerPos2 = new List<Vector3>() {
+        new Vector3(18f, -6f, 0),
+        new Vector3(20f, -6f, 0),
+        new Vector3(31f, -6f, 0),
+        new Vector3(33f, -6f, 0)
+    };
 
     private void Awake()
     {
-        
+
     }
     
-
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +37,16 @@ public class GamePlayManager : MonoBehaviour
     }
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Pants Game Player Variant", new Vector3(20f, -6f, 0), Quaternion.identity);
-        // RespawnPanel.SetActive(false);
+        PlayerData myStatus = NetworkManager.instance.GetMyStatus();
+
+        if (NetworkManager.instance.getCurrentMap() == "Game Play Map1")
+        {
+            PhotonNetwork.Instantiate("Pants Game Player Variant", playerPos1[myStatus.PlayerID - 1], Quaternion.identity);
+        }
+        else
+        {
+            PhotonNetwork.Instantiate("Pants Game Player Variant", playerPos2[myStatus.PlayerID - 1], Quaternion.identity);
+        }
 
     }
 
