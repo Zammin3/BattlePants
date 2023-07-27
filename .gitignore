@@ -61,7 +61,6 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
-*.app
 .DS_Store
 
 
