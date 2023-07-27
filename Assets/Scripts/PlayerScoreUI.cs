@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -19,8 +20,6 @@ public class PlayerScoreUI : MonoBehaviour
         {
             panel.SetActive(false);
         }
-
-        round.text = "1";
     }
 
     // Update is called once per frame
@@ -28,6 +27,13 @@ public class PlayerScoreUI : MonoBehaviour
     {
         List<PlayerData> currentPlayersStatus = NetworkManager.instance.GetPlayersStatus();
 
+        if (PhotonNetwork.CurrentRoom != null)
+        {
+            if (PhotonNetwork.CurrentRoom.CustomProperties != null && PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("round"))
+            {
+                round.text = PhotonNetwork.CurrentRoom.CustomProperties["round"].ToString();
+            }
+        }
 
         // Loop through each status and update the corresponding UI text element
         for (int i = 0; i < currentPlayersStatus.Count; i++)

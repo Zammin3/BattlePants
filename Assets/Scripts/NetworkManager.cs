@@ -117,6 +117,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
     }
 
+    public void SetRound(int round)
+    {
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
+        properties.Add("round", round);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
+    }
+
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {

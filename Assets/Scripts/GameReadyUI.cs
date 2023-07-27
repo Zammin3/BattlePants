@@ -51,6 +51,8 @@ public class GameReadyManager : MonoBehaviour
         PlayerData myStauts = NetworkManager.instance.GetMyStatus();
         NetworkManager.instance.SetPlayerReady(!myStauts.IsReady);
         NetworkManager.instance.SetPlayerScores(false, false);
+
+        NetworkManager.instance.SetRound(1);
     }
     public void BackButtonClicked()
     {

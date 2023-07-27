@@ -79,14 +79,16 @@ public class PantsGamePlayer : MonoBehaviour
         {
             //StartCoroutine(WaitAndSpawn());
 
-            PlayerData myStauts = NetworkManager.instance.GetMyStatus();
-            if (!myStauts.score1)
+            PlayerData myStatus = NetworkManager.instance.GetMyStatus();
+            if (!myStatus.score1)
             {
                 NetworkManager.instance.SetPlayerScores(true, false);
+                NetworkManager.instance.SetRound((int)PhotonNetwork.CurrentRoom.CustomProperties["round"] + 1);
             }
             else
             {
                 NetworkManager.instance.SetPlayerScores(true, true);
+                NetworkManager.instance.SetRound((int)PhotonNetwork.CurrentRoom.CustomProperties["round"] + 1);
             }
 
             PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
@@ -97,14 +99,16 @@ public class PantsGamePlayer : MonoBehaviour
         {
             Debug.Log("OPEN THE DOOR");
 
-            PlayerData myStauts = NetworkManager.instance.GetMyStatus();
-            if (!myStauts.score1)
+            PlayerData myStatus = NetworkManager.instance.GetMyStatus();
+            if (!myStatus.score1)
             {
                 NetworkManager.instance.SetPlayerScores(true, false);
+                NetworkManager.instance.SetRound((int)PhotonNetwork.CurrentRoom.CustomProperties["round"] + 1);
             }
             else
             {
                 NetworkManager.instance.SetPlayerScores(true, true);
+                NetworkManager.instance.SetRound((int)PhotonNetwork.CurrentRoom.CustomProperties["round"] + 1);
             }
 
             PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
