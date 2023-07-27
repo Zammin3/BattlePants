@@ -11,10 +11,24 @@ public class GamePlayManager : MonoBehaviour
     }
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Pants Game Player Variant", new Vector3(43.5f, 35.2f, 0), Quaternion.identity);
+        PhotonNetwork.Instantiate("Pants Game Player Variant", new Vector3(20f, -6f, 0), Quaternion.identity);
         // RespawnPanel.SetActive(false);
 
     }
+
+    public void ScoreUp()
+    {
+        PlayerData myStauts = NetworkManager.instance.GetMyStatus();
+        if (!myStauts.score1)
+        {
+            NetworkManager.instance.SetPlayerScores(true, false);
+        }
+        else
+        {
+            NetworkManager.instance.SetPlayerScores(true, true);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

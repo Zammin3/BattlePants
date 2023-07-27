@@ -14,8 +14,9 @@ public class PantsGamePlayer : MonoBehaviour
     [SerializeField] Canvas canvas;
 
     private PhotonView photonView;
-    private bool isInTrigger = false; // �÷��̾ ���� Ʈ���� ���� �ִ��� ǥ��
+    private bool isInTrigger = false; 
     private bool isRealDoor = false;
+    private Vector3 curDoor;
     private List<Vector3> doorPosition = new List<Vector3>();
 
     System.Random random = new System.Random();
@@ -69,19 +70,45 @@ public class PantsGamePlayer : MonoBehaviour
 
     private void Update()
     {
-        if (gameObject.transform.position.y < -25f)
+        if (gameObject.transform.position.y < -35f)
         {
             gameObject.transform.position = new Vector3(20f, -6f, 0f);
         }
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && !isRealDoor)
         {
-            StartCoroutine(WaitAndSpawn());
+            //StartCoroutine(WaitAndSpawn());
+
+            PlayerData myStauts = NetworkManager.instance.GetMyStatus();
+            if (!myStauts.score1)
+            {
+                NetworkManager.instance.SetPlayerScores(true, false);
+            }
+            else
+            {
+                NetworkManager.instance.SetPlayerScores(true, true);
+            }
+
+            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
+            isRealDoor = false;
         }
 
         if (isInTrigger && Input.GetKeyDown(KeyCode.UpArrow) && isRealDoor)
         {
+            Debug.Log("OPEN THE DOOR");
 
+            PlayerData myStauts = NetworkManager.instance.GetMyStatus();
+            if (!myStauts.score1)
+            {
+                NetworkManager.instance.SetPlayerScores(true, false);
+            }
+            else
+            {
+                NetworkManager.instance.SetPlayerScores(true, true);
+            }
+
+            PhotonView.Get(NetworkManager.instance).RPC("ChangeScene", RpcTarget.All);
+            isRealDoor = false;
         }
         if (transform.localScale.x < 0)//    부모가 좌우 대칭되었다, 캔버스도 좌우 대칭 시키기 
         {
@@ -95,8 +122,11 @@ public class PantsGamePlayer : MonoBehaviour
 
     IEnumerator WaitAndSpawn()
     {
+        int index = random.Next(doorPosition.Count - 2);
         yield return new WaitForSeconds(0.5f);
-        int index = random.Next(doorPosition.Count - 1);
+        while (doorPosition[index] == curDoor) {
+            index = random.Next(doorPosition.Count - 2);
+        }
         gameObject.transform.position = doorPosition[index];
     }
 
@@ -104,7 +134,8 @@ public class PantsGamePlayer : MonoBehaviour
     {
         if (other.gameObject.name == "Door")
         {
-            isInTrigger = true; // isInTrigger�� true�� ����
+            isInTrigger = true; 
+            curDoor = other.gameObject.transform.position;
         }
         if(other.gameObject.transform.position == doorPosition[doorPosition.Count - 1])
         {
@@ -112,7 +143,6 @@ public class PantsGamePlayer : MonoBehaviour
         }
     }
 
-    // �÷��̾ ���� Ʈ���ſ��� ������
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.name == "Door")
