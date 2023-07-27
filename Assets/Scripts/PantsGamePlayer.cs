@@ -5,9 +5,13 @@ using Photon.Pun;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
+using TMPro;
 
 public class PantsGamePlayer : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI nicknameTextMeshPro;
+    [SerializeField] Canvas canvas;
 
     private PhotonView photonView;
     private bool isInTrigger = false; // �÷��̾ ���� Ʈ���� ���� �ִ��� ǥ��
@@ -19,11 +23,19 @@ public class PantsGamePlayer : MonoBehaviour
     private void Awake()
     {
         photonView =  GetComponent<PhotonView>();
+   
+        nicknameTextMeshPro.text = photonView.IsMine ? PhotonNetwork.NickName : photonView.Owner.NickName;
+        nicknameTextMeshPro.color = photonView.IsMine ? new Color(123 / 255f, 193 / 255f, 178 / 255f) : new Color(249/255f,108/255f,108/255f);
         if (photonView.IsMine)
         {
             Camera cam = Camera.main;
             cam.transform.SetParent(transform);
             cam.transform.localPosition = new Vector3(0f, 0f, -10f);
+
+           
+        }
+        else {
+            
         }
         
     }
@@ -53,7 +65,6 @@ public class PantsGamePlayer : MonoBehaviour
             doorPosition[n] = temp;
         }
 
-
     }
 
     private void Update()
@@ -72,6 +83,14 @@ public class PantsGamePlayer : MonoBehaviour
         {
 
         }
+        if (transform.localScale.x < 0)//    부모가 좌우 대칭되었다, 캔버스도 좌우 대칭 시키기 
+        {
+            canvas.transform.localScale = new Vector3(-Mathf.Abs(canvas.transform.localScale.x), canvas.transform.localScale.y, canvas.transform.localScale.z);
+        }
+        else {
+            canvas.transform.localScale = new Vector3(Mathf.Abs(canvas.transform.localScale.x), canvas.transform.localScale.y, canvas.transform.localScale.z);
+        }
+   
     }
 
     IEnumerator WaitAndSpawn()
