@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    
+    public bool isJoinRoom = false;
 
     public static NetworkManager instance;
 
@@ -49,15 +49,23 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void Connect(string nickname)
     {
         // 마스터 서버에 연결
+        isJoinRoom = true;
+        Debug.Log("Connect");
         PhotonNetwork.NickName=nickname;
         PhotonNetwork.ConnectUsingSettings();
+        
     }
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("마스터 서버에 연결됨 ");
-        JoinRoom();
 
+        Debug.Log(isJoinRoom);
+        if (isJoinRoom)
+        {
+            Debug.Log("마스터 서버에 연결됨 ");
+            JoinRoom();
+
+        }
     }
 
     void JoinRoom()
@@ -81,13 +89,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void NotifyUserJoined(string name)
     {
+        Debug.Log("현재 참여 중 목");
         foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
         {
             Debug.Log("Player ID: " + playerInfo.Key + ", NickName: " + playerInfo.Value.NickName);
         }
-
-        Debug.Log("Player ID: " + PhotonNetwork.LocalPlayer.ActorNumber);
-        Debug.Log(name + "님이 게임에 참가하였습니다.");
 
         
     }
@@ -96,7 +102,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Debug.Log(otherPlayer.NickName + "님이 게임에서 나갔습니다.");
+
         playersReady--;
+
+        Debug.Log("현재 참여 중 목");
+        foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
+        {
+            Debug.Log("Player ID: " + playerInfo.Key + ", NickName: " + playerInfo.Value.NickName);
+        }
+
     }
 
     // 플레이어가 준비되었음을 서버에 알리는 함수
@@ -122,6 +136,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
         properties.Add("round", round);
         PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
+
     }
 
 
@@ -285,7 +300,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void ExitRoom()
     {
         // 방을 떠남
+        isJoinRoom = false;
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
     }
 
     public override void OnLeftRoom()
