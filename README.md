@@ -46,10 +46,20 @@
 
 ### 게임 대기 화면
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/9e85abd9-3dc8-4c4b-aea7-d3854aee203e)
+![BattlePants - Game Ready - Windows, Mac, Linux - Unity 2022 3 5f1 _DX11_ 2023-07-27 19-39-53_1](https://github.com/Zammin3/BattlePants/assets/39901387/4887aa20-089e-4cf0-976a-eb812f7388ca)
+
 
 ### 게임 플레이 화면
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/84fd774f-0264-4fcb-8bb4-24938236e892)
 ![image](https://github.com/Zammin3/BattlePants/assets/39901387/9bf80b3a-5192-4949-9b67-43945e944ff8)
+![BattlePants - Game Ready - Windows, Mac, Linux - Unity 2022 3 5f1 _DX11_ 2023-07-27 19-39-53_2](https://github.com/Zammin3/BattlePants/assets/39901387/7d52e140-e793-47a5-b85e-4b5a9ea771dd)
+![BattlePants - Game Ready - Windows, Mac, Linux - Unity 2022 3 5f1 _DX11_ 2023-07-27 19-39-53_3](https://github.com/Zammin3/BattlePants/assets/39901387/617a4e2d-a717-4268-b5df-d3dde04214b6)
+
+#### 점수 획득
+![BattlePants - Game Ready - Windows, Mac, Linux - Unity 2022 3 5f1 _DX11_ 2023-07-27 19-39-53_4](https://github.com/Zammin3/BattlePants/assets/39901387/f6cf40af-1043-41a5-99d1-11ed1290b74f)
+
+#### 게임 오버
+![image](https://github.com/Zammin3/BattlePants/assets/39901387/c70764f6-88b8-4b4e-b025-a2aafd303c7a)
 
 
 
