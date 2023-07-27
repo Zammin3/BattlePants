@@ -137,7 +137,7 @@ public class PantsGamePlayer : MonoBehaviour
             isInTrigger = true; 
             curDoor = other.gameObject.transform.position;
         }
-        if(other.gameObject.transform.position == doorPosition[doorPosition.Count - 1])
+        if(doorPosition.Count > 0 && other.gameObject.transform.position == doorPosition[doorPosition.Count - 1])
         {
             isRealDoor = true;
         }
