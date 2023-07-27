@@ -7,7 +7,7 @@
 ## A. 개발 팀원
 
 * [권예진](https://github.com/dmobtxx19)
-* [김현서]()
+* [김현서](https://github.com/kkkhhhsss123)
 * [김현수](https://github.com/skykhs3)
 ***
 ## B. 배포 환경
@@ -37,5 +37,11 @@
 
 
 ## E. 미리보기
+![image](https://github.com/Zammin3/BattlePants/assets/39901387/9c1dcae6-3997-452b-9091-efe3f4dbca0e)
+![image](https://github.com/Zammin3/BattlePants/assets/39901387/da15ae99-6349-4d4e-9654-1bf25d076125)
+![image](https://github.com/Zammin3/BattlePants/assets/39901387/9e85abd9-3dc8-4c4b-aea7-d3854aee203e)
+![image](https://github.com/Zammin3/BattlePants/assets/39901387/84fd774f-0264-4fcb-8bb4-24938236e892)
+![image](https://github.com/Zammin3/BattlePants/assets/39901387/9bf80b3a-5192-4949-9b67-43945e944ff8)
+
 
 
